@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Get Yourself Checked</title>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body {
+                font-family: Georgia, Verdana, sans-serif;
+                font-size: 20px;
+                }
+            * {
+                box-sizing: border-box;
+            }
+            input[type=text], select, textarea{
+                font-size: 20px;
+            }
+            .container {
+                font-size:20px;
+                border-radius: 5px;
+                background-color: #f2f2f2;
+                padding: 20px;
+            }
+            .submit {
+                width: 50em;
+                height: 3em;
+                font-size: 50px;
+            }
+            .formbox{
+                padding: 30px;    
+            }
+            
+        </style>
+    </head>
+    <body>
+        <h2>Get Yourself Checked Through This Small Test</h2>
+        <br />
+        
+        <p>The following test will let you know if you have bladder inflammation or nephritis based on the symptoms that you have or not.<p/> 
+        <p>If it turns out that you have any of the symptoms, please seek a medical professioanl's help.</p>
+        <br />
+        <div class="formbox" >
+        <form action="/action_page.php">
+            <p>Do you have body temperature above 38&#176;C (100.4&#176;F)?</p>
+            <input type="radio" name="temp" value="1" />Yes
+            <input type="radio" name="temp" value="0" checked="checked" />No
+            <br />
+            
+            <p>Do you have nausea?</p>
+            <input type="radio" name="nausea" value="1" />Yes
+            <input type="radio" name="nausea" value="0" checked="checked" />No
+            <br />
+            
+            <p>Do you have pain in the lumbar region(lower back)?</p>
+            <input type="radio" name="lumbar" value="1" />Yes
+            <input type="radio" name="lumbar" value="0" checked="checked" />No
+            <br />
+            
+            <p>Do you have to strain a lot and have to push urine out?</p>
+            <input type="radio" name="urinepush" value="1" />Yes
+            <input type="radio" name="urinepush" value="0" checked="checked" />No
+            <br />
+            
+            <p>Do you have pain while urinating?</p>
+            <input type="radio" name="micturition" value="1" />Yes
+            <input type="radio" name="micturition" value="0" checked="checked" />No
+            <br />
+            
+            <p>Does your urethra burn while urinating?</p>
+            <input type="radio" name="urethraburn" value="1" />Yes
+            <input type="radio" name="urethraburn" value="0" checked="checked" />No
+            <br />
+            
+            <input id="submit" type="submit" value="Initiate Test"> 
+            
+        </form>
+        </div>
+        <h3 id="result"></h3>
+        
+        <script type="text/javascript">
+            $('#submit').click(function(event){
+                              event.preventDefault();
+                              var exist_response = $.ajax({type:"GET",url:"http://127.0.0.1:5000/predict",
+                                                           data:"temp="+$('input[type=radio][name=temp]:checked').val()
+                                                           +"&nausea="+$('input[type=radio][name=nausea]:checked').val()
+                                                           +"&lumbar="+$('input[type=radio][name=lumbar]:checked').val()
+                                                           +"&urinepush="+$('input[type=radio][name=urinepush]:checked').val()
+                                                           +"&micturition="+$('input[type=radio][name=micturition]:checked').val()
+                                                           +"&urethraburn="+$('input[type=radio][name=urethraburn]:checked').val(), async:false}).responseText;
+            $("#result").text("RESULT:  "+exist_response);
+            });
+        </script>
+    </body>
+</html>
